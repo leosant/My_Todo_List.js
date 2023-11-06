@@ -44,7 +44,7 @@ document.addEventListener('click', (event) => {
     task.remove();
   }
 
-  //checkar task
+  //Checkar task
   if (event.target.classList.contains('isCheck')) {
     console.log('cliquei no checked')
     let id = event.target.id.split('-');
