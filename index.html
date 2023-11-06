@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu TODO-List</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+	<section class="container">
+		<head>
+			<h1 class="title">TODO - List</h1>
+			<form id="formTask" method="get">
+				<input id="inputTextTask" placeholder="Expecifique a tarefa aqui..."/>
+				<button id="btAddTask" onclick="addTask()">Adicionar tarefa</button>
+			</form>
+		</head>
+		<main>
+		</main>
+		<footer  id="footerTask">
+			<h3>Tarefas concluídas</h3>
+			<section class="checked">
+				<div id="task-2">
+					<input class="paragrafoTask" type="checkbox" checked/>
+					<p class="paragrafoTask checkTask">teste default</p>
+					<button id="delete-2" class="deleteTask paragrafoTask">Deletar</button>
+				</div>
+			</section>
+		</footer>
+	</section>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>

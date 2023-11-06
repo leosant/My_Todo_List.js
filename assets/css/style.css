@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(65, 65, 194);
+  font-family: cursive, 'Roboto', sans-serif;
+  font-size: 1.3em;
+  line-height: 1.5em;
+}
+
+main {
+  margin-top: 30px;
+}
+
+input {
+  font-family: cursive;
+  border-color: rgb(65, 65, 194);
+  border-radius: 8px;
+  padding: 2% 20% 2% 1%;
+  font-size: medium;
+  
+}
+
+button {
+  font-family: cursive;
+  font-size: large;
+  color: #f5f5f5;
+  background-color: rgb(65, 65, 194);
+  border: none;
+  border-radius: 8px;
+  padding: 2%;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 2%;
+}
+
+button:hover {
+  background-color: rgb(65, 65, 194, 0.9);
+}
+
+.paragrafoTask {
+  margin-left: 1%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.deleteTask {
+  padding: 5px;
+  margin-left: 10%;
+  font-size: 15px;
+  background-color: #d10e0e;
+}
+
+.deleteTask:hover {
+  background-color: #d10e0ee8;
+}
+
+.title {
+  text-align: center;
+  color: #666665;
+}
+
+#timerMain {
+  margin-left: 10px;
+}
+
+.timer {
+  display: inline;
+}
+
+.container {
+  margin: 5% 25% 5% 25%;
+  padding: 2%;
+  width: 50%;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.pausado {
+  color: #d10e0e;
+}
+
+.checkTask {
+  text-decoration: line-through;
+}
+
+#footerTask {
+  opacity: 50%;
+  margin-top: 20%;
+  border-top: #666665 solid 1px;
+}
