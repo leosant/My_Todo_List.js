@@ -10,22 +10,53 @@ let checkedClass = document.querySelector('.checked');
 
 let tasks = [];
 
+window.onload = (event) => {
+  tasks = JSON.parse(localStorage.getItem('list'));
+
+  console.log(tasks);
+  for(index in tasks) {
+    let taskLocal = tasks[index];
+
+    let checkbox = _createCheckBoxForTask(taskLocal.id, taskLocal.isChecked);
+    let paragraph = _createParagraphForTask(taskLocal.taskText);
+    let buttonDelete = _createButtonOfDeleteForTask(taskLocal.id);
+    
+    let divTask = _createDivForTask(taskLocal.id);
+    
+    _appendChildDiv(divTask, checkbox, paragraph, buttonDelete);
+
+    if(taskLocal.isChecked) {
+      checkedClass.appendChild(divTask);
+    } else {
+      mainTask.appendChild(divTask);
+    }
+    
+  }
+}
+
 //Adiconar uma nova task
 formTaskClass.addEventListener('submit', (event) => {
   event.preventDefault();
   let inputTask = event.target.querySelector('#inputTextTask');
   let taskValue = inputTask.value;
 
+  tasks = tasks == null ? [] : tasks;
+
+  idGerado = _createIdTaskIncremented();
+  
   tasks.push({
-    id: tasks.length + 1,
-    taskText: taskValue
+    id: idGerado,
+    taskText: taskValue,
+    isChecked: false
   });
 
-  let checkbox = _createCheckBoxForTask();
-  let paragraph = _createParagraphForTask(taskValue);
-  let buttonDelete = _createButtonOfDeleteForTask();
+  localStorage.setItem('list', JSON.stringify(tasks));
 
-  let divTask = _createDivForTask();
+  let checkbox = _createCheckBoxForTask(idGerado, false);
+  let paragraph = _createParagraphForTask(taskValue);
+  let buttonDelete = _createButtonOfDeleteForTask(idGerado);
+
+  let divTask = _createDivForTask(idGerado);
 
   _appendChildDiv(divTask, checkbox, paragraph, buttonDelete);
 
@@ -50,17 +81,45 @@ const _checkarTask = (event) => {
 
   if (isChecked) {
     checkedClass.appendChild(task);
+
+    for(i in tasks) {
+      task = tasks[i];
+      if (task.id == id) {
+        task.isChecked = true;
+        tasks.splice(i, 1, task);
+      }
+    }
   } else {
     mainTask.appendChild(task);
+
+    for(i in tasks) {
+      task = tasks[i];
+      if (task.id == id) {
+        task.isChecked = false;
+        tasks.splice(i, 1, task);
+      }
+    }
   }
+  localStorage.setItem('list', JSON.stringify(tasks));
 }
 
 const _deletarTask = (event) => {
   if (!_isContainsClassName(event ,'deleteTask')) return;
 
+  const confirm = window.confirm('Você deseja realmente apagar essa tarefa ?');
+  if (!confirm) return ;
+  
   let idTask = _getIdTask(event);
   let task = document.getElementById(`task-${idTask}`);
   task.remove();
+
+  for(i in tasks) {
+    task = tasks[i];
+    if (task.id == idTask) {
+      tasks.splice(i, 1);
+    }
+  }
+  localStorage.setItem('list', JSON.stringify(tasks));
 }
 
 const _getIdTask = (event) => {
@@ -75,18 +134,18 @@ const _appendChildDiv = (tagDiv,...elements) => {
   }
 }
 
-const _createDivForTask = () => {
+const _createDivForTask = (idGerado) => {
   let div = _createElement('div');
 
-  div.setAttribute('id', `task-${_createIdTaskIncremented()}`);
+  div.setAttribute('id', `task-${idGerado}`);
 
   return div;
 }
 
-const _createButtonOfDeleteForTask = () => {
+const _createButtonOfDeleteForTask = (idGerado) => {
   let button = _createElement('button');
 
-  button.setAttribute('id', `delete-${_createIdTaskIncremented()}`)
+  button.setAttribute('id', `delete-${idGerado}`)
 
   _addClassList(button, 'paragrafoTask', 'deleteTask');
 
@@ -104,9 +163,10 @@ const _createParagraphForTask = (taskText) => {
   return paragraph;
 }
 
-const _createCheckBoxForTask = () => {
+const _createCheckBoxForTask = (idGerado, isChecked) => {
   let inputElement = _createElement('input');
-  inputElement.setAttribute('id', `checked-${_createIdTaskIncremented()}`)
+  inputElement.setAttribute('id', `checked-${idGerado}`)
+  inputElement.checked = isChecked;
   inputElement.type = 'checkbox';
 
   _addClassList(inputElement, 'paragrafoTask', 'isCheck');
