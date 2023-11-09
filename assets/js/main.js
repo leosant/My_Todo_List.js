@@ -1,5 +1,5 @@
 /**
- * Os Comentários adicionado servem apenas como base de estudo
+ * Os Comentários adicionados servem apenas como base de estudo
  * Não sendo necessários para a comprensão da lógica,
  * pois os recursos adotados se baseam no que está descrito no livro Clean code
  */
@@ -8,7 +8,7 @@ let formTaskClass = document.querySelector('#formTask');
 let mainTask = document.querySelector('main');
 let checkedClass = document.querySelector('.checked');
 
-const tasks = [];
+let tasks = [];
 
 //Adiconar uma nova task
 formTaskClass.addEventListener('submit', (event) => {
@@ -32,26 +32,42 @@ formTaskClass.addEventListener('submit', (event) => {
   mainTask.appendChild(divTask);
 
   inputTask.value = '';
-  console.log('task objeto: ', tasks);
-})
+});
 
 //Escutar qualquer evento de click
 document.addEventListener('click', (event) => {
-  //Deletar task
-  if (event.target.classList.contains('deleteTask')) {
-    let id = event.target.id.split('-');
-    let task = document.getElementById(`task-${id[1]}`);
-    task.remove();
-  }
+  _deletarTask(event);
+  _checkarTask(event);
+});
 
-  //Checkar task
-  if (event.target.classList.contains('isCheck')) {
-    console.log('cliquei no checked')
-    let id = event.target.id.split('-');
-    let task = document.getElementById(`task-${id[1]}`);
+const _checkarTask = (event) => {
+  if (!_isContainsClassName(event, 'isCheck')) return;
+
+  let isChecked = event.target.checked;
+
+  let id = _getIdTask(event);
+  let task = document.getElementById(`task-${id}`);
+
+  if (isChecked) {
     checkedClass.appendChild(task);
+  } else {
+    mainTask.appendChild(task);
   }
-})
+}
+
+const _deletarTask = (event) => {
+  if (!_isContainsClassName(event ,'deleteTask')) return;
+
+  let idTask = _getIdTask(event);
+  let task = document.getElementById(`task-${idTask}`);
+  task.remove();
+}
+
+const _getIdTask = (event) => {
+  return event.target.id.split('-')[1];
+}
+
+const _isContainsClassName = (event, className) => event.target.classList.contains(className);
 
 const _appendChildDiv = (tagDiv,...elements) => {
   for (value of elements) {
@@ -62,7 +78,7 @@ const _appendChildDiv = (tagDiv,...elements) => {
 const _createDivForTask = () => {
   let div = _createElement('div');
 
-  div.setAttribute('id', `task-${_getIncrementIdTask()}`);
+  div.setAttribute('id', `task-${_createIdTaskIncremented()}`);
 
   return div;
 }
@@ -70,7 +86,7 @@ const _createDivForTask = () => {
 const _createButtonOfDeleteForTask = () => {
   let button = _createElement('button');
 
-  button.setAttribute('id', `delete-${_getIncrementIdTask()}`)
+  button.setAttribute('id', `delete-${_createIdTaskIncremented()}`)
 
   _addClassList(button, 'paragrafoTask', 'deleteTask');
 
@@ -81,6 +97,7 @@ const _createButtonOfDeleteForTask = () => {
 const _createParagraphForTask = (taskText) => {
   let paragraph = _createElement('p');
 
+  // paragraph.setAttribute('id', _createIdTaskIncremented());
   _addClassList(paragraph, 'paragrafoTask');
 
   paragraph.innerText = taskText;
@@ -89,7 +106,7 @@ const _createParagraphForTask = (taskText) => {
 
 const _createCheckBoxForTask = () => {
   let inputElement = _createElement('input');
-  inputElement.setAttribute('id', `checked-${_getIncrementIdTask()}`)
+  inputElement.setAttribute('id', `checked-${_createIdTaskIncremented()}`)
   inputElement.type = 'checkbox';
 
   _addClassList(inputElement, 'paragrafoTask', 'isCheck');
@@ -103,7 +120,7 @@ const _addClassList = (element, ...ClassNames) => {
   }
 }
 
-const _getIncrementIdTask = () => tasks.length + 1;
+const _createIdTaskIncremented = () => tasks.length + 1;
 
 const _createElement = (elementTypeName) => {
   return document.createElement(elementTypeName);
