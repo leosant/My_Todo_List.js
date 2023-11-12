@@ -40,6 +40,11 @@ formTaskClass.addEventListener('submit', (event) => {
   let inputTask = event.target.querySelector('#inputTextTask');
   let taskValue = inputTask.value;
 
+  if(taskValue.trim().length === 0) {
+    alert('Tarefa não pode estar vazia!')
+    return;
+  }
+
   tasks = tasks == null ? [] : tasks;
 
   idGerado = _createIdTaskIncremented();
